@@ -1,41 +1,29 @@
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
-import { indianCurrency, isBoolean } from "../../config/helpers";
+import { useRef, useState } from "react";
 import { FormRow } from "../FormRow";
+import { HRAExemptionReport } from "../results/HRAExemptionReport";
 
 library.add(faExclamationTriangle);
 
-export const HraExemption = () => {
+export const HraExemption = (props) => {
+  const childRef = useRef();
   const [basicSalary, setBasicSalary] = useState(0);
   const [da, setDa] = useState(0);
   const [hra, setHra] = useState(0);
   const [rentPaid, setRentPaid] = useState(0);
   const [liveInMetorpolitan, setLiveInMetorpolitan] = useState(1);
-  const [hraExemption, setHraExemption] = useState(0);
-  const [companyProvidedHRA, setCompanyProvidedHra] = useState(0);
-  const [excessHouseRentPaid, setExcessHouseRentPaid] = useState(0);
-  const [metroHra, setMetroHra] = useState(0);
 
-  const calculateHraExemption = (e) => {
+  const manageBasicSalary = (basicAmount) => {
+    setBasicSalary(basicAmount);
+    setHra(basicAmount * 0.5);
+  };
+
+
+  const calculate = (e) => {
     e.preventDefault();
-    const totalBasicSalary = parseFloat(basicSalary) + parseFloat(da);
-    const companyProvidedHRA = parseFloat(hra);
-    const totalRentPaid = parseFloat(rentPaid);
-    const excessHouseRentPaid = totalRentPaid - totalBasicSalary * 0.1;
-    const metroHra = isBoolean(liveInMetorpolitan)
-      ? companyProvidedHRA * 0.5
-      : companyProvidedHRA * 0.4;
-    const finalHRAExemption = Math.min(
-      companyProvidedHRA,
-      excessHouseRentPaid,
-      metroHra
-    );
-    setCompanyProvidedHra(companyProvidedHRA);
-    setExcessHouseRentPaid(excessHouseRentPaid);
-    setMetroHra(metroHra);
-    setHraExemption(finalHRAExemption);
+    childRef.current.calculateHraExemption();
   };
 
   return (
@@ -50,7 +38,7 @@ export const HraExemption = () => {
           name="basic_salary"
           value={basicSalary}
           className="form-control"
-          onChange={(e) => setBasicSalary(e.target.value)}
+          onChange={(e) => manageBasicSalary(e.target.value)}
         />
         <FormRow
           label="DA"
@@ -105,38 +93,13 @@ export const HraExemption = () => {
         <br />
         <button
           className="btn btn-primary mt-3"
-          onClick={calculateHraExemption}
+          onClick={calculate}
         >
           Calculate
         </button>
       </form>
-      {hraExemption > 0 && (
-        <div className="mt-3">
-          <p className="lead">HRA Exemption</p>
-          <ol>
-            <li>
-              Actual house rent allowance received from your employer:{" "}
-              <span className="text-info">
-                {indianCurrency(companyProvidedHRA)}
-              </span>
-            </li>
-            <li>
-              Actual house rent paid minus 10% of your basic salary:{" "}
-              <div className="text-info">
-                {indianCurrency(excessHouseRentPaid)}
-              </div>
-            </li>
-            <li>
-              50% of your basic salary if you live in a metro or 40% of your
-              basic salary if you live in a non-metro:{" "}
-              <div className="text-info">{indianCurrency(metroHra)}</div>
-            </li>
-          </ol>
-          <p className="lead p-3 bg-success text-white rounded">
-            Minimum of above 3 is {indianCurrency(hraExemption)}
-          </p>
-        </div>
-      )}
+
+      <HRAExemptionReport ref={childRef} basicSalary={basicSalary} da={da} hra={hra} rentPaid={rentPaid} liveInMetorpolitan={liveInMetorpolitan} />
     </>
   );
 };

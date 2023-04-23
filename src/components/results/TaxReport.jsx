@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { TableRow } from "./TableRow";
+import { calculateTaxAndCess } from "../../config/utils";
+import { TableRow } from "../TableRow";
 
 export const TaxReport = ({ income }) => {
   const [taxPayable, setTaxPayable] = useState(0);
@@ -11,18 +12,8 @@ export const TaxReport = ({ income }) => {
   }, [income]);
 
   const calculateTax = (income) => {
-    let tax = 0;
-    if (income <= 250000) {
-      tax = 0;
-    } else if (income > 250000 && income <= 500000) {
-      tax = (income - 250000) * 0.05;
-    } else if (income > 500000 && income <= 1000000) {
-      tax = (income - 500000) * 0.2 + 12500;
-    } else if (income > 1000000) {
-      tax = (income - 1000000) * 0.3 + 112500;
-    }
+    const { tax, cess } = calculateTaxAndCess(income);
     setTaxPayable(tax);
-    let cess = tax * 0.04;
     setCessCharge(cess);
     setTotalTaxPayable(tax + cess);
   };

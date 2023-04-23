@@ -3,7 +3,7 @@ import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { FormRow } from "../FormRow";
-import { TaxReport } from "../TaxReport";
+import { TaxReport } from "../results/TaxReport";
 
 library.add(faExclamationTriangle);
 
