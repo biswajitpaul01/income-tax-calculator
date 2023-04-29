@@ -5,7 +5,7 @@ export const SalaryBreakdown = ({ annualSalary, annualTax, annualPf }) => {
   const monthlyTax = annualTax / 12;
   const monthlyPf = annualPf / 12;
   const monthlyProfTax = 200;
-  const monthlySalaryAfterTax = monthlySalary - monthlyTax - monthlyPf - monthlyProfTax - 3742;
+  const monthlySalaryAfterTax = monthlySalary - monthlyTax - monthlyPf - monthlyProfTax;
 
   return (
     <>

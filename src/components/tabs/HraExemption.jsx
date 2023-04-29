@@ -36,6 +36,7 @@ const HraExemption = (props) => {
             name="basic_salary"
             value={basicSalary}
             className="text-input"
+            required="true"
             onChange={(e) => manageBasicSalary(e.target.value)}
           />
           <FormRow
@@ -57,6 +58,7 @@ const HraExemption = (props) => {
             name="rent_paid"
             value={rentPaid}
             className="text-input"
+            required="true"
             onChange={(e) => setRentPaid(e.target.value)}
           />
         </div>
@@ -91,7 +93,7 @@ const HraExemption = (props) => {
             </label>
           </div>
         </div>
-        <button className="btn btn-primary my-3" onClick={calculate}>
+        <button className="btn btn-primary my-3" disabled={basicSalary <= 0 || rentPaid <= 0} onClick={calculate}>
           Calculate
           <FontAwesomeIcon icon="arrow-right" className="ml-2" />
         </button>

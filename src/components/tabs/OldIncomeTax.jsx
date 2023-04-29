@@ -146,6 +146,7 @@ const OldIncomeTax = () => {
         <button
           type="button"
           className="btn btn-primary my-3"
+          disabled={ctc <= 0 || basicSalary <= 0}
           onClick={calculateChargableIncome}
         >
           Calculate

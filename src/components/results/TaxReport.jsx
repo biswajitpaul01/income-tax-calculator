@@ -27,7 +27,7 @@ export const TaxReport = ({ income, totalSalary, pf }) => {
           <TableRow label="Income Chargeable To Tax" value={income} />
           <TableRow label="INCOME TAX PAYABLE" value={taxPayable} />
           <TableRow
-            label="Health and Education Cess (Taxable Income x 4%)"
+            label="Health and Education Cess (Tax Payable x 4%)"
             value={cessCharge}
           />
           <TableRow
