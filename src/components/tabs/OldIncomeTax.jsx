@@ -22,6 +22,7 @@ const OldIncomeTax = () => {
   const [eightyCCD1Deduction, setEightyCCD1Deduction] = useState(0);
   const [eightyCCD1BDeduction, setEightyCCD1BDeduction] = useState(0);
   const [mediclaim, setMediclaim] = useState(0);
+  const [savingsInterest, setSavingsInterest] = useState(0);
 
   useEffect(() => {
     let gratuity = Math.round((basicSalary * 4.8) / 100);
@@ -34,6 +35,11 @@ const OldIncomeTax = () => {
     setTotalSalary(totalSalary);
   }, [basicSalary, ctc, mediInsPremium]);
 
+  const manageSavingInterest = (interest) => {
+    const interestAmount = Math.min(interest, 10000);
+    setSavingsInterest(interestAmount);
+  };
+
   const calculateChargableIncome = (e) => {
     e.preventDefault();
     let totalDeduction =
@@ -42,7 +48,8 @@ const OldIncomeTax = () => {
       parseFloat(profTax) +
       parseFloat(eightyCCD1Deduction) +
       parseFloat(eightyCCD1BDeduction) +
-      parseFloat(mediclaim);
+      parseFloat(mediclaim) +
+      parseFloat(savingsInterest);
     let income = Math.round(totalSalary - totalDeduction);
     setChargableIncome(income);
   };
@@ -74,7 +81,7 @@ const OldIncomeTax = () => {
             value={mediInsPremium}
             className="text-input"
             onChange={(e) => setMediInsPremium(e.target.value)}
-          />          
+          />
           <FormRow
             label="Gratuity (4.8% of Basic)"
             name="gratuity"
@@ -104,7 +111,7 @@ const OldIncomeTax = () => {
             className="text-input"
             helpText="Calculate on next tab"
             onChange={(e) => setHRAExemption(e.target.value)}
-          />          
+          />
           <FormRow
             label="Less: Standard Deduction"
             name="standard_deduction"
@@ -125,6 +132,7 @@ const OldIncomeTax = () => {
             value={eightyCCD1Deduction}
             className="text-input"
             max="150000"
+            infoText="Max allowed: 1.5L"
             onChange={(e) => setEightyCCD1Deduction(e.target.value)}
           />
           <FormRow
@@ -133,6 +141,7 @@ const OldIncomeTax = () => {
             value={eightyCCD1BDeduction}
             className="text-input"
             max="50000"
+            infoText="Max allowed: 50K"
             onChange={(e) => setEightyCCD1BDeduction(e.target.value)}
           />
           <FormRow
@@ -140,7 +149,18 @@ const OldIncomeTax = () => {
             name="mediclaim"
             value={mediclaim}
             className="text-input"
+            max="25000"
+            infoText="Max allowed: 25K"
             onChange={(e) => setMediclaim(e.target.value)}
+          />
+          <FormRow
+            label="Less: 80TTA Bank Savings Interest"
+            name="saving_interest"
+            value={savingsInterest}
+            className="text-input"
+            max="10000"
+            infoText="Max allowed: 10K"
+            onChange={(e) => manageSavingInterest(e.target.value)}
           />
         </div>
         <button

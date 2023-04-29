@@ -1,4 +1,5 @@
-import { Suspense, useState } from 'react';
+import { initFlowbite } from 'flowbite';
+import { Suspense, useEffect, useState } from 'react';
 import styles from './App.module.scss';
 import Loader from './components/Loader';
 import { Tab } from './components/Tab';
@@ -8,6 +9,10 @@ import { tabs } from './config/tab';
 
 function App() {
   const [activeTab, setActiveTab] = useState('oldIncomeTax');
+
+  useEffect(() => {
+    initFlowbite();
+  }, [activeTab]);
 
   return (
     <div className="container mx-auto py-3">

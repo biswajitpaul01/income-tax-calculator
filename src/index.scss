@@ -89,6 +89,10 @@ input[type="number"] {
     }
   }
 
+  .tooltip-text {
+    @apply absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700;
+  }
+
   .result-box {
     @apply mt-3 bg-zinc-100 p-3 rounded;
   }
