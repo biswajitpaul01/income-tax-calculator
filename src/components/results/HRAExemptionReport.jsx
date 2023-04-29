@@ -1,6 +1,7 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { indianCurrency } from "../../config/helpers";
 import { getHRAExemption } from "../../config/utils";
+import { Alert } from "../Alert";
 
 export const HRAExemptionReport = forwardRef((props, ref) => {
   const [companyProvidedHRA, setCompanyProvidedHra] = useState(0);
@@ -8,43 +9,54 @@ export const HRAExemptionReport = forwardRef((props, ref) => {
   const [metroHra, setMetroHra] = useState(0);
   const [hraExemption, setHraExemption] = useState(0);
 
-  useImperativeHandle(ref, () => ({
-    calculateHraExemption() {
-        const { companyProvidedHRA, excessHouseRentPaid, metroHra, finalHRAExemption } = getHRAExemption(props);
+  useImperativeHandle(
+    ref,
+    () => ({
+      calculateHraExemption() {
+        const {
+          companyProvidedHRA,
+          excessHouseRentPaid,
+          metroHra,
+          finalHRAExemption,
+        } = getHRAExemption(props);
         setCompanyProvidedHra(companyProvidedHRA);
         setExcessHouseRentPaid(excessHouseRentPaid);
         setMetroHra(metroHra);
         setHraExemption(finalHRAExemption);
-    }
-  }), [props]);
+      },
+    }),
+    [props]
+  );
 
   return (
     <>
       {hraExemption > 0 && (
-        <div className="mt-3" ref={ref}>
-          <p className="lead">HRA Exemption Rules</p>
-          <ol>
+        <div className="result-box" ref={ref}>
+          <p className="text-2xl font-extralight">HRA Exemption Rules</p>
+          <ul className="list-decimal mb-3 list-inside">
             <li>
-              Actual house rent allowance received from your employer:{" "}
-              <span className="text-info">
+              Actual house rent allowance received from your employer:
+              <span className="text-cyan-400 font-semibold ml-1">
                 {indianCurrency(companyProvidedHRA)}
               </span>
             </li>
             <li>
-              Actual house rent paid minus 10% of your basic salary:{" "}
-              <div className="text-info">
+              Actual house rent paid minus 10% of your basic salary:
+              <span className="text-cyan-400 font-semibold ml-1">
                 {indianCurrency(excessHouseRentPaid)}
-              </div>
+              </span>
             </li>
             <li>
               50% of your basic salary if you live in a metro or 40% of your
-              basic salary if you live in a non-metro:{" "}
-              <div className="text-info">{indianCurrency(metroHra)}</div>
+              basic salary if you live in a non-metro:
+              <span className="text-cyan-400 font-semibold ml-1">
+                {indianCurrency(metroHra)}
+              </span>
             </li>
-          </ol>
-          <p className="lead p-3 bg-success text-white rounded">
+          </ul>
+          <Alert type="success">
             Minimum of above 3 rules is {indianCurrency(hraExemption)}
-          </p>
+          </Alert>
         </div>
       )}
     </>

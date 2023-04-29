@@ -1,0 +1,139 @@
+// wrapper
+.wrapper {
+	position: relative;
+	width: 100%;
+	height: 30vh;
+}
+
+// The Loader
+$loader-color: #14b8a6;
+$loader-step-1: lighten($loader-color, 30%);
+$loader-step-2: lighten($loader-color, 15%);
+$loader-size: 2rem;
+$loader-gap: $loader-size / 4;
+$loader-part: ($loader-size - $loader-gap) / 2;
+$loader-offset: $loader-part + $loader-gap;
+
+$loader-1: $loader-offset 0 0;
+$loader-2: $loader-offset $loader-offset 0;
+$loader-3: 0 $loader-offset 0;
+$loader-4: -$loader-offset $loader-offset 0;
+$loader-5: -$loader-offset 0 0;
+
+$loader-animation: move;
+$loader-ease: ease-in-out;
+
+$loader-step: 100 / 4;
+$loader-time: 1s;
+
+.loader {
+	position: absolute; // Use "Fixed" if you want it center on a page
+	left: 50%;
+	top: 50%;
+	margin-left: -$loader-size / 2;
+	margin-top: -$loader-size / 2;
+	width: $loader-size;
+	height: $loader-size;
+	color: $loader-color;
+
+	&::before {
+		position: absolute;
+		width: $loader-part;
+		height: $loader-part;
+		display: block;
+		content: '';
+		background: currentColor;
+		box-shadow: $loader-1, $loader-2, $loader-3;
+		transform-origin: $loader-size / 2 $loader-size / 2;
+		animation: $loader-animation $loader-time infinite $loader-ease;
+	}
+
+	&::after {
+		content: 'Loading';
+		position: absolute;
+		display: block;
+		top: $loader-size + $loader-gap;
+		color: #999;
+		left: $loader-part + ($loader-gap / 2);
+		transform: translateX(-50%);
+		animation: text $loader-time infinite $loader-ease alternate;
+	}
+
+}
+
+.loader.blink::before {
+	animation: blink $loader-time infinite linear;
+}
+
+.loader.spin::before {
+	animation: spin $loader-time infinite $loader-ease;
+}
+
+@keyframes text {
+	30% {
+		opacity: 1;
+	}
+	
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes move {
+	0% {
+		transform: translateX(0);
+		box-shadow: $loader-1, $loader-2, $loader-3;
+	}
+
+	100% {
+		transform: translateX($loader-part + $loader-gap);
+		box-shadow: $loader-3, $loader-4, $loader-5;
+	}
+}
+
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(90deg);
+	}
+}
+
+
+@keyframes blink {
+	0% {
+		box-shadow: $loader-1 $loader-step-2,
+								$loader-2 $loader-step-1,
+								$loader-3;
+	}
+
+	#{$loader-step * 1}% {
+		box-shadow: $loader-1,
+								$loader-2 $loader-step-2,
+								$loader-3 $loader-step-1;
+	}
+
+	#{$loader-step * 2}% {
+		background: $loader-step-1;
+		box-shadow: $loader-1,
+								$loader-2,
+								$loader-3;
+	}
+
+	#{$loader-step * 3}% {
+		background: $loader-step-2;
+		box-shadow: $loader-1 $loader-step-1,
+								$loader-2,
+								$loader-3;
+	}
+
+	100% {
+		background: currentColor;
+		box-shadow: $loader-1 $loader-step-2,
+								$loader-2 $loader-step-1,
+								$loader-3;
+	}
+}

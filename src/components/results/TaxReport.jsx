@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { calculateTaxAndCess } from "../../config/utils";
 import { TableRow } from "../TableRow";
+import { SalaryBreakdown } from "./SalaryBreakdown";
 
-export const TaxReport = ({ income }) => {
+export const TaxReport = ({ income, totalSalary, pf }) => {
   const [taxPayable, setTaxPayable] = useState(0);
   const [cessCharge, setCessCharge] = useState(0);
   const [totalTaxPayable, setTotalTaxPayable] = useState(0);
@@ -19,13 +20,23 @@ export const TaxReport = ({ income }) => {
   };
 
   return (
-    <table className="table table-bordered table-striped-columns">
-      <tbody>
-        <TableRow label="Income Chargeable To Tax" value={income} />
-        <TableRow label="INCOME TAX PAYABLE" value={taxPayable} />
-        <TableRow label="Health and Education Cess (Taxable Income x 4%)" value={cessCharge} />
-        <TableRow label="TOTAL INCOME TAX & S/C & CESS PAYABLE" value={totalTaxPayable} />
-      </tbody>
-    </table>
+    <div className="result-box">
+      <p className="text-2xl font-extralight">Tax Report</p>
+      <table className="border-collapse border border-slate-400 mt-3 w-full">
+        <tbody>
+          <TableRow label="Income Chargeable To Tax" value={income} />
+          <TableRow label="INCOME TAX PAYABLE" value={taxPayable} />
+          <TableRow
+            label="Health and Education Cess (Taxable Income x 4%)"
+            value={cessCharge}
+          />
+          <TableRow
+            label="TOTAL INCOME TAX & S/C & CESS PAYABLE"
+            value={totalTaxPayable}
+          />
+        </tbody>
+      </table>
+      <SalaryBreakdown annualSalary={totalSalary} annualTax={totalTaxPayable} annualPf={pf} />
+    </div>
   );
 };

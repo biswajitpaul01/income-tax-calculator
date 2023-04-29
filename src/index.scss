@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "Nunito Sans", sans-serif;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+@layer components {
+  .tab {
+    @apply inline-block p-4 border-b-2 rounded-t-lg;
+
+    &.active {
+      @apply text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500;
+    }
+
+    &:not(.active) {
+      @apply border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300;
+    }
+  }
+
+  input:read-only {
+    @apply bg-gray-100 dark:bg-gray-700;
+
+    &:focus {
+      @apply ring-0;
+    }
+
+    &:hover {
+      cursor: not-allowed;
+    }
+  }
+
+  .text-input {
+    @apply block w-full px-3 py-1.5 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent;
+  }
+
+  .label {
+    @apply block text-sm font-medium text-gray-700;
+  }
+
+  .radio-inline {
+    @apply w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600;
+  }
+
+  .radio-inline-label {
+    @apply ml-2 text-sm font-medium text-gray-900 dark:text-gray-300;
+  }
+
+  .input-help {
+    @apply mt-2 text-sm text-gray-500 dark:text-gray-400;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 border rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2;
+
+    &-primary {
+      @apply border-transparent text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-600;
+    }
+  }
+
+  .alert {
+    @apply px-4 py-3 rounded-md text-sm font-medium;
+
+    &.alert-info {
+      @apply text-blue-800 bg-blue-100 border-blue-200;
+    }
+
+    &.alert-success {
+      @apply text-green-800 bg-green-100 border-green-200;
+    }
+  }
+
+  .result-box {
+    @apply mt-3 bg-zinc-100 p-3 rounded;
+  }
+}

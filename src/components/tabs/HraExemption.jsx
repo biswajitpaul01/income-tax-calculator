@@ -1,13 +1,14 @@
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRef, useState } from "react";
+import { Alert } from "../Alert";
 import { FormRow } from "../FormRow";
 import { HRAExemptionReport } from "../results/HRAExemptionReport";
 
-library.add(faExclamationTriangle);
+library.add(faArrowRight);
 
-export const HraExemption = (props) => {
+const HraExemption = (props) => {
   const childRef = useRef();
   const [basicSalary, setBasicSalary] = useState(0);
   const [da, setDa] = useState(0);
@@ -20,7 +21,6 @@ export const HraExemption = (props) => {
     setHra(basicAmount * 0.5);
   };
 
-
   const calculate = (e) => {
     e.preventDefault();
     childRef.current.calculateHraExemption();
@@ -28,78 +28,87 @@ export const HraExemption = (props) => {
 
   return (
     <>
-      <small className="text-danger text-end d-block pb-2">
-        <FontAwesomeIcon icon="exclamation-triangle" /> All numbers should be in
-        yearly
-      </small>
+      <Alert type="info">All figures should be in yearly format</Alert>
       <form>
-        <FormRow
-          label="Basic salary"
-          name="basic_salary"
-          value={basicSalary}
-          className="form-control"
-          onChange={(e) => manageBasicSalary(e.target.value)}
-        />
-        <FormRow
-          label="DA"
-          name="da"
-          value={da}
-          className="form-control"
-          onChange={(e) => setDa(e.target.value)}
-        />
-        <FormRow
-          label="HRA"
-          name="hra"
-          value={hra}
-          className="form-control"
-          onChange={(e) => setHra(e.target.value)}
-        />
-        <FormRow
-          label="Annual Rent Paid"
-          name="rent_paid"
-          value={rentPaid}
-          className="form-control"
-          onChange={(e) => setRentPaid(e.target.value)}
-        />
-        <label className="me-3">Do you live in metro city?</label>
-        <div className="form-check form-check-inline">
-          <input
-            className="form-check-input"
-            type="radio"
-            name="metro"
-            id="metro-yes"
-            value="1"
-            defaultChecked={liveInMetorpolitan}
-            onChange={(e) => setLiveInMetorpolitan(e.target.value)}
+        <div className="grid grid-cols-3 gap-3">
+          <FormRow
+            label="Basic salary"
+            name="basic_salary"
+            value={basicSalary}
+            className="text-input"
+            onChange={(e) => manageBasicSalary(e.target.value)}
           />
-          <label className="form-check-label" htmlFor="metro-yes">
-            Yes
-          </label>
-        </div>
-        <div className="form-check form-check-inline">
-          <input
-            className="form-check-input"
-            type="radio"
-            name="metro"
-            id="metro-no"
-            value="0"
-            defaultChecked={!liveInMetorpolitan}
-            onChange={(e) => setLiveInMetorpolitan(e.target.value)}
+          <FormRow
+            label="Dearness Allowance (DA)"
+            name="da"
+            value={da}
+            className="text-input"
+            onChange={(e) => setDa(e.target.value)}
           />
-          <label className="form-check-label" htmlFor="metro-no">
-            No
-          </label>
+          <FormRow
+            label="House Rent Allowance (HRA)"
+            name="hra"
+            value={hra}
+            className="text-input"
+            onChange={(e) => setHra(e.target.value)}
+          />
+          <FormRow
+            label="Annual Rent Paid"
+            name="rent_paid"
+            value={rentPaid}
+            className="text-input"
+            onChange={(e) => setRentPaid(e.target.value)}
+          />
         </div>
-        <br />
-        <button
-          className="btn btn-primary mt-3"
-          onClick={calculate}
-        >
+        <div className="flex mt-3">
+          <label className="me-3 label">Do you live in metro city?</label>
+          <div className="flex items-center mr-4">
+            <input
+              id="metro-yes"
+              type="radio"
+              value="1"
+              name="metro"
+              className="radio-inline"
+              defaultChecked={liveInMetorpolitan}
+              onChange={(e) => setLiveInMetorpolitan(e.target.value)}
+            />
+            <label htmlFor="metro-yes" className="radio-inline-label">
+              Yes
+            </label>
+          </div>
+          <div className="flex items-center mr-4">
+            <input
+              id="metro-no"
+              type="radio"
+              value="0"
+              name="metro"
+              className="radio-inline"
+              defaultChecked={!liveInMetorpolitan}
+              onChange={(e) => setLiveInMetorpolitan(e.target.value)}
+            />
+            <label htmlFor="metro-no" className="radio-inline-label">
+              No
+            </label>
+          </div>
+        </div>
+        <button className="btn btn-primary my-3" onClick={calculate}>
           Calculate
+          <FontAwesomeIcon icon="arrow-right" className="ml-2" />
         </button>
       </form>
 
-      <HRAExemptionReport ref={childRef} basicSalary={basicSalary} da={da} hra={hra} rentPaid={rentPaid} liveInMetorpolitan={liveInMetorpolitan} />
+      <hr />
+
+      <HRAExemptionReport
+        ref={childRef}
+        basicSalary={basicSalary}
+        da={da}
+        hra={hra}
+        rentPaid={rentPaid}
+        liveInMetorpolitan={liveInMetorpolitan}
+      />
     </>
   );
 };
+
+export default HraExemption;

@@ -2,6 +2,7 @@ import { isBoolean, roundToTwo } from "./helpers";
 
 export const calculateTaxAndCess = (income) => {
     let tax = 0;
+    
     if (income <= 250000) {
       tax = 0;
     } else if (income > 250000 && income <= 500000) {

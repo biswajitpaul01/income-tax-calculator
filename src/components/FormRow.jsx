@@ -3,23 +3,31 @@ export const FormRow = ({
   name,
   value,
   className,
+  required,
   readOnly,
+  helpText,
   onChange,
 }) => (
-  <div className="mb-3 row">
-    <label htmlFor={name} className="col-sm-5 col-form-label">
-      {label}
-    </label>
-    <div className="col-sm-7">
-      <input
-        type="number"
-        readOnly={readOnly}
-        className={className}
-        value={value}
-        name={name}
-        id={name}
-        onChange={onChange}
-      />
+  <>
+    <div>
+      <label htmlFor={name} className="label">
+        {label} {required && <span className="text-red-500">*</span>}
+      </label>
     </div>
-  </div>
+    <div className="col-span-2">
+      <div className="flex rounded-md shadow-sm">
+        <input
+          type="number"
+          name={name}
+          id={name}
+          value={value}
+          className={className}
+          onChange={onChange}
+          {...(readOnly && { readOnly: "readOnly" })}
+          {...(required && { required: "required" })}
+        />
+      </div>
+      {helpText && <p className="input-help">{helpText}</p>}
+    </div>
+  </>
 );
