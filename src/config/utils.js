@@ -36,7 +36,7 @@ export const calculateTaxAndCess = (income) => {
 export const calculateNewTaxAndCess = (income) => {
   let tax = 0;
   let cess = 0;
-  let slab1Tax, slab2Tax, slab3Tax, slab4Tax, slab5Tax, slab6Tax = 0;
+  let slab1Tax = 0, slab2Tax = 0, slab3Tax = 0, slab4Tax = 0, slab5Tax = 0, slab6Tax = 0;
 
   if (income <= 700000) {
     return {

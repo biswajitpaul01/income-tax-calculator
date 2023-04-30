@@ -1,13 +1,14 @@
 import { initFlowbite } from "flowbite";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { scrollIntoView } from "../../config/helpers";
-import { calculateTaxAndCess } from "../../config/utils";
+import { calculateNewTaxAndCess, calculateTaxAndCess } from "../../config/utils";
 import { PopOverContent } from "../slices/PopOverContent";
 import { TableRow } from "../slices/TableRow";
 import { SalaryBreakdown } from "./SalaryBreakdown";
+import { TaxBreakdownWithNewRule } from "./TaxBreakdownWithNewRule";
 import { TaxBreakdownWithOldRule } from "./TaxBreakdownWithOldRule";
 
-export const TaxReport = ({ income, totalSalary, pf, profTax }) => {
+export const TaxReport = ({ income, totalSalary, pf, profTax, method }) => {
   const [taxPayable, setTaxPayable] = useState(0);
   const [cessCharge, setCessCharge] = useState(0);
   const [totalTaxPayable, setTotalTaxPayable] = useState(0);
@@ -15,17 +16,34 @@ export const TaxReport = ({ income, totalSalary, pf, profTax }) => {
   const [taxBreakdowns, setTaxBreakdowns] = useState({});
 
   const calculateTax = useCallback((income) => {
-    const { tax, cess, slab1Tax, slab2Tax, slab3Tax, slab4Tax } = calculateTaxAndCess(income);
-    setTaxPayable(tax);
-    setCessCharge(cess);
-    setTotalTaxPayable(tax + cess);
-    setTaxBreakdowns({
-      slab1Tax,
-      slab2Tax,
-      slab3Tax,
-      slab4Tax,
-      income
-    });
+    if (method === "new") {
+      const { tax, cess, slab1Tax, slab2Tax, slab3Tax, slab4Tax, slab5Tax, slab6Tax } = calculateNewTaxAndCess(income);
+      setTaxPayable(tax);
+      setCessCharge(cess);
+      setTotalTaxPayable(tax + cess);
+      setTaxBreakdowns({
+        slab1Tax,
+        slab2Tax,
+        slab3Tax,
+        slab4Tax,
+        slab5Tax,
+        slab6Tax,
+        income
+      });
+    } else {
+      const { tax, cess, slab1Tax, slab2Tax, slab3Tax, slab4Tax } = calculateTaxAndCess(income);
+      setTaxPayable(tax);
+      setCessCharge(cess);
+      setTotalTaxPayable(tax + cess);
+      setTaxBreakdowns({
+        slab1Tax,
+        slab2Tax,
+        slab3Tax,
+        slab4Tax,
+        income
+      });
+    }
+
     if (reportBox.current) {
       scrollIntoView(reportBox.current);
       initFlowbite();
@@ -55,7 +73,8 @@ export const TaxReport = ({ income, totalSalary, pf, profTax }) => {
       </table>
       <SalaryBreakdown annualSalary={totalSalary} annualTax={totalTaxPayable} annualPf={pf} annualProfTax={profTax} />
       <PopOverContent name="tax_payable">
-        <TaxBreakdownWithOldRule {...taxBreakdowns} />
+        {method === 'old' && <TaxBreakdownWithOldRule {...taxBreakdowns} />}
+        {method === 'new' && <TaxBreakdownWithNewRule {...taxBreakdowns} />}
       </PopOverContent>
     </div>
   );

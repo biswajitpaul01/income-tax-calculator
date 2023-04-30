@@ -10,7 +10,7 @@ import { FormRowFloatable } from "../slices/FormRowFloatable";
 
 library.add(faArrowRight);
 
-const OldIncomeTax = () => {
+const NewIncomeTax = () => {
   const [ctc, setCTC] = useState(0);
   const [basicSalary, setBasicSalary] = useState(0);
   const [gratuityPercent, setGratuityPercent] = useState(4.81);
@@ -20,16 +20,10 @@ const OldIncomeTax = () => {
   const [mediInsPremium, setMediInsPremium] = useState(0);
   const [chargableIncome, setChargableIncome] = useState(0);
   const [totalSalary, setTotalSalary] = useState(0);
-  const [hraExemption, setHRAExemption] = useState(0);
   const [standardDeduction, setStandardDeduction] = useState(50000);
   const [profTax, setProfTax] = useState(2400);
-  const [eightyCCD1Deduction, setEightyCCD1Deduction] = useState(0);
-  const [eightyCCD1BDeduction, setEightyCCD1BDeduction] = useState(0);
-  const [mediclaim, setMediclaim] = useState(0);
-  const [educationLoanInterest, setEducationLoanInterest] = useState(0);
+  const [eightyCCD2Deduction, setEightyCCD2Deduction] = useState(0);
   const [homeLoanInterest, setHomeLoanInterest] = useState(0);
-  const [savingsInterest, setSavingsInterest] = useState(0);
-  const [lta, setLTA] = useState(0);
 
   useEffect(() => {
     let gratuity = Math.round((basicSalary * gratuityPercent) / 100);
@@ -45,16 +39,10 @@ const OldIncomeTax = () => {
   const calculateTaxChargeableIncome = (e) => {
     e.preventDefault();
     let totalDeduction =
-      parseFloat(hraExemption) +
       parseFloat(standardDeduction) +
       parseFloat(profTax) +
-      parseFloat(eightyCCD1Deduction) +
-      parseFloat(eightyCCD1BDeduction) +
-      parseFloat(mediclaim) +
-      parseFloat(educationLoanInterest) +
-      parseFloat(homeLoanInterest) +
-      parseFloat(savingsInterest) +
-      parseFloat(lta);
+      parseFloat(eightyCCD2Deduction) +
+      parseFloat(homeLoanInterest);
     let income = Math.round(totalSalary - totalDeduction);
     setChargableIncome(income);
   };
@@ -117,13 +105,7 @@ const OldIncomeTax = () => {
             onChange={(e) => setTotalSalary(e.target.value)}
           />
           <p className="col-span-3">Deductions</p>
-          <FormRowFloatable
-            label="HRA Exemption"
-            name="hra_exemption"
-            value={hraExemption}
-            helpText="Calculate on next tab"
-            onChange={(e) => setHRAExemption(e.target.value)}
-          />
+
           <FormRowFloatable
             label="Standard Deduction"
             name="standard_deduction"
@@ -131,6 +113,7 @@ const OldIncomeTax = () => {
             className="text-input"
             onChange={(e) => setStandardDeduction(e.target.value)}
           />
+
           <FormRowFloatable
             label="Prof.Tax (Yearly)"
             name="prof_tax"
@@ -139,38 +122,13 @@ const OldIncomeTax = () => {
             onChange={(e) => setProfTax(e.target.value)}
           />
           <FormRowFloatable
-            label="80CCD (1) Deduction"
-            name="80ccd1_deduction"
-            value={eightyCCD1Deduction}
+            label="80CCD (2) Deduction"
+            name="80ccd2_deduction"
+            value={eightyCCD2Deduction}
             className="text-input"
             max="150000"
             helpText="Max allowed: 1.5L"
-            onChange={(e) => setEightyCCD1Deduction(e.target.value)}
-          />
-          <FormRowFloatable
-            label="80CCD (1B) Deduction"
-            name="80ccd1b_deduction"
-            value={eightyCCD1BDeduction}
-            className="text-input"
-            max="50000"
-            helpText="Max allowed: 50K"
-            onChange={(e) => setEightyCCD1BDeduction(e.target.value)}
-          />
-          <FormRowFloatable
-            label="80D Medical Insr Premium"
-            name="mediclaim"
-            value={mediclaim}
-            className="text-input"
-            max="25000"
-            helpText="Max allowed: 25K"
-            onChange={(e) => setMediclaim(e.target.value)}
-          />
-          <FormRowFloatable
-            label="80E Education Loan Interest"
-            name="education_loan_interest"
-            value={educationLoanInterest}
-            className="text-input"
-            onChange={(e) => setEducationLoanInterest(e.target.value)}
+            onChange={(e) => setEightyCCD2Deduction(e.target.value)}
           />
           <FormRowFloatable
             label="80EE Home Loan Interest"
@@ -180,22 +138,6 @@ const OldIncomeTax = () => {
             max="50000"
             helpText="Max allowed: 50K"
             onChange={(e) => setHomeLoanInterest(e.target.value)}
-          />
-          <FormRowFloatable
-            label="80TTA Bank Savings Interest"
-            name="saving_interest"
-            value={savingsInterest}
-            className="text-input"
-            max="10000"
-            helpText="Max allowed: 10K"
-            onChange={(e) => setSavingsInterest(e.target.value)}
-          />
-          <FormRowFloatable
-            label="LTA Availed"
-            name="lta"
-            value={lta}
-            className="text-input"
-            onChange={(e) => setLTA(e.target.value)}
           />
         </div>
         <button
@@ -215,11 +157,11 @@ const OldIncomeTax = () => {
           totalSalary={totalSalary}
           pf={pf}
           profTax={profTax}
-          method="old"
+          method="new"
         />
       )}
     </>
   );
 };
 
-export default OldIncomeTax;
+export default NewIncomeTax;
