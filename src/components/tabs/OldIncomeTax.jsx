@@ -42,12 +42,7 @@ const OldIncomeTax = () => {
     setTotalSalary(totalSalary);
   }, [basicSalary, ctc, gratuityPercent, mediInsPremium, pfPercent]);
 
-  const manageSavingInterest = (interest) => {
-    const interestAmount = Math.min(interest, 10000);
-    setSavingsInterest(interestAmount);
-  };
-
-  const calculateChargeableIncome = (e) => {
+  const calculateTaxChargeableIncome = (e) => {
     e.preventDefault();
     let totalDeduction =
       parseFloat(hraExemption) +
@@ -122,98 +117,92 @@ const OldIncomeTax = () => {
             onChange={(e) => setTotalSalary(e.target.value)}
           />
           <p className="col-span-3">Deductions</p>
-          
-            <FormRowFloatable
-              label="HRA Exemption"
-              name="hra_exemption"
-              value={hraExemption}
-              helpText="Calculate on next tab"
-              onChange={(e) => setHRAExemption(e.target.value)}
-            />
-
-
-            <FormRowFloatable
-              label="Standard Deduction"
-              name="standard_deduction"
-              value={standardDeduction}
-              className="text-input"
-              onChange={(e) => setStandardDeduction(e.target.value)}
-            />
-
-          
-            <FormRowFloatable
-              label="Prof.Tax (Yearly)"
-              name="prof_tax"
-              value={profTax}
-              className="text-input"
-              onChange={(e) => setProfTax(e.target.value)}
-            />
-          
-            <FormRowFloatable
-              label="80CCD (1) Deduction"
-              name="80ccd1_deduction"
-              value={eightyCCD1Deduction}
-              className="text-input"
-              max="150000"
-              helpText="Max allowed: 1.5L"
-              onChange={(e) => setEightyCCD1Deduction(e.target.value)}
-            />
-            <FormRowFloatable
-              label="80CCD (1B) Deduction"
-              name="80ccd1b_deduction"
-              value={eightyCCD1BDeduction}
-              className="text-input"
-              max="50000"
-              helpText="Max allowed: 50K"
-              onChange={(e) => setEightyCCD1BDeduction(e.target.value)}
-            />
-            <FormRowFloatable
-              label="80D Medical Insr Premium"
-              name="mediclaim"
-              value={mediclaim}
-              className="text-input"
-              max="25000"
-              helpText="Max allowed: 25K"
-              onChange={(e) => setMediclaim(e.target.value)}
-            />
-            <FormRowFloatable
-              label="80E Education Loan Interest"
-              name="education_loan_interest"
-              value={educationLoanInterest}
-              className="text-input"
-              onChange={(e) => setEducationLoanInterest(e.target.value)}
-            />
-            <FormRowFloatable
-              label="80EE Home Loan Interest"
-              name="home_loan_interest"
-              value={homeLoanInterest}
-              className="text-input"
-              max="50000"
-              helpText="Max allowed: 50K"
-              onChange={(e) => setHomeLoanInterest(e.target.value)}
-            />
-            <FormRowFloatable
-              label="80TTA Bank Savings Interest"
-              name="saving_interest"
-              value={savingsInterest}
-              className="text-input"
-              max="10000"
-              helpText="Max allowed: 10K"
-              onChange={(e) => manageSavingInterest(e.target.value)}
-            />
-            <FormRowFloatable
-              label="LTA Availed"
-              name="lta"
-              value={lta}
-              className="text-input"
-              onChange={(e) => setLTA(e.target.value)}
-            />
+          <FormRowFloatable
+            label="HRA Exemption"
+            name="hra_exemption"
+            value={hraExemption}
+            helpText="Calculate on next tab"
+            onChange={(e) => setHRAExemption(e.target.value)}
+          />
+          <FormRowFloatable
+            label="Standard Deduction"
+            name="standard_deduction"
+            value={standardDeduction}
+            className="text-input"
+            onChange={(e) => setStandardDeduction(e.target.value)}
+          />
+          <FormRowFloatable
+            label="Prof.Tax (Yearly)"
+            name="prof_tax"
+            value={profTax}
+            className="text-input"
+            onChange={(e) => setProfTax(e.target.value)}
+          />
+          <FormRowFloatable
+            label="80CCD (1) Deduction"
+            name="80ccd1_deduction"
+            value={eightyCCD1Deduction}
+            className="text-input"
+            max="150000"
+            helpText="Max allowed: 1.5L"
+            onChange={(e) => setEightyCCD1Deduction(e.target.value)}
+          />
+          <FormRowFloatable
+            label="80CCD (1B) Deduction"
+            name="80ccd1b_deduction"
+            value={eightyCCD1BDeduction}
+            className="text-input"
+            max="50000"
+            helpText="Max allowed: 50K"
+            onChange={(e) => setEightyCCD1BDeduction(e.target.value)}
+          />
+          <FormRowFloatable
+            label="80D Medical Insr Premium"
+            name="mediclaim"
+            value={mediclaim}
+            className="text-input"
+            max="25000"
+            helpText="Max allowed: 25K"
+            onChange={(e) => setMediclaim(e.target.value)}
+          />
+          <FormRowFloatable
+            label="80E Education Loan Interest"
+            name="education_loan_interest"
+            value={educationLoanInterest}
+            className="text-input"
+            onChange={(e) => setEducationLoanInterest(e.target.value)}
+          />
+          <FormRowFloatable
+            label="80EE Home Loan Interest"
+            name="home_loan_interest"
+            value={homeLoanInterest}
+            className="text-input"
+            max="50000"
+            helpText="Max allowed: 50K"
+            onChange={(e) => setHomeLoanInterest(e.target.value)}
+          />
+          <FormRowFloatable
+            label="80TTA Bank Savings Interest"
+            name="saving_interest"
+            value={savingsInterest}
+            className="text-input"
+            max="10000"
+            helpText="Max allowed: 10K"
+            onChange={(e) => setSavingsInterest(e.target.value)}
+          />
+          <FormRowFloatable
+            label="LTA Availed"
+            name="lta"
+            value={lta}
+            className="text-input"
+            onChange={(e) => setLTA(e.target.value)}
+          />
         </div>
         <button
           type="button"
           className="btn btn-primary my-3"
           disabled={ctc <= 0 || basicSalary <= 0}
-          onClick={calculateChargeableIncome}
+          onClick={calculateTaxChargeableIncome}
         >
           Calculate
           <FontAwesomeIcon icon="arrow-right" className="ml-2" />

@@ -107,7 +107,7 @@ const HraExemption = (props) => {
         da={da}
         hra={hra}
         rentPaid={rentPaid}
-        liveInMetorpolitan={liveInMetropolitan}
+        liveInMetropolitan={liveInMetropolitan}
       />
     </>
   );

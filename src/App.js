@@ -1,9 +1,9 @@
 import { initFlowbite } from 'flowbite';
 import { Suspense, useEffect, useState } from 'react';
 import styles from './App.module.scss';
-import { HraExemption, OldIncomeTax } from "./LazyComponents";
+import { HraExemption, OldIncomeTax } from './LazyComponents';
 import Loader from './components/Loader';
-import { Tab } from './components/Tab';
+import { Tab } from './components/slices/Tab';
 import { tabs } from './config/tab';
 
 function App() {
@@ -29,8 +29,7 @@ function App() {
           <div className="py-3">
             <Suspense fallback={<Loader />}>
               {activeTab === 'oldIncomeTax' && <OldIncomeTax />}
-            </Suspense>
-            <Suspense fallback={<Loader />}>
+              {/* {activeTab === 'newIncomeTax' && <NewIncomeTax />} */}
               {activeTab === 'hraExemption' && <HraExemption />}
             </Suspense>
           </div>

@@ -1,4 +1,4 @@
-import { TableRow } from "../TableRow";
+import { TableRow } from "../slices/TableRow";
 
 export const SalaryBreakdown = ({ annualSalary, annualTax, annualPf, annualProfTax }) => {
   const monthlySalary = annualSalary / 12;

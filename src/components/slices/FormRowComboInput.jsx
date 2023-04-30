@@ -37,7 +37,7 @@ export const FormRowComboInput = ({
             id={`floating_${firstInputName}`}
             value={firstInputValue}
             placeholder=" "
-            className="block px-2.5 pb-2 pt-3 w-full text-sm text-gray-900 bg-transparent rounded-l border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 focus-0 peer"
+            className={`block px-2.5 pb-2 pt-3 w-full text-sm text-gray-900 bg-transparent rounded-l border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 focus-0 peer ${firstInputReadOnly && "cursor-not-allowed"}`}
             onChange={onFirstInputChange}
             {...(firstInputReadOnly && { readOnly: "readOnly" })}
             {...(firstInputRequired && { required: "required" })}
@@ -56,7 +56,7 @@ export const FormRowComboInput = ({
           name={secondInputName}
           id={secondInputName}
           value={secondInputValue}
-          className="text-combo-input-second"
+          className={`text-combo-input-second ${secondInputReadOnly && "cursor-not-allowed"}`}
           onChange={onSecondInputChange}
           {...(secondInputReadOnly && { readOnly: "readOnly" })}
           {...(secondInputRequired && { required: "required" })}

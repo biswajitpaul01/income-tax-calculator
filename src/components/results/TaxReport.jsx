@@ -2,8 +2,8 @@ import { initFlowbite } from "flowbite";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { scrollIntoView } from "../../config/helpers";
 import { calculateTaxAndCess } from "../../config/utils";
-import { TableRow } from "../TableRow";
 import { PopOverContent } from "../slices/PopOverContent";
+import { TableRow } from "../slices/TableRow";
 import { SalaryBreakdown } from "./SalaryBreakdown";
 import { TaxBreakdownWithOldRule } from "./TaxBreakdownWithOldRule";
 
@@ -20,7 +20,6 @@ export const TaxReport = ({ income, totalSalary, pf, profTax }) => {
     setCessCharge(cess);
     setTotalTaxPayable(tax + cess);
     setTaxBreakdowns({
-      ...taxBreakdowns,
       slab1Tax,
       slab2Tax,
       slab3Tax,

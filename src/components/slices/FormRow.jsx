@@ -31,7 +31,7 @@ export const FormRow = ({
           name={name}
           id={name}
           value={value}
-          className={className}
+          className={`${className} ${readOnly && "cursor-not-allowed"}`}
           onChange={onChange}
           {...(readOnly && { readOnly: "readOnly" })}
           {...(required && { required: "required" })}

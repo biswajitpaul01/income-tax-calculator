@@ -1,4 +1,4 @@
-import { indianCurrency } from '../config/helpers';
+import { indianCurrency } from '../../config/helpers';
 export const TableRow = ({ label, value, popoverId }) => (
   <tr>
     <th className='border border-slate-300 p-2' align='left'>{label}</th>
