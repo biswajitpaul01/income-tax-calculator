@@ -10,3 +10,11 @@ export const indianCurrency = (value) => {
 export const roundToTwo = (num) => {
     return +(Math.round(num + "e+2")  + "e-2");
 };
+
+export const scrollIntoView = (element) => {
+    element.scrollIntoView({ 
+        behavior: "smooth", 
+        block: "end", 
+        inline: "nearest" 
+    });
+}

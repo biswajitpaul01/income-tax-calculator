@@ -1,4 +1,4 @@
-import { Tooltip } from "./Tooltip";
+import { Tooltip } from "../Tooltip";
 
 export const FormRow = ({
   label,
@@ -14,18 +14,17 @@ export const FormRow = ({
   onChange,
 }) => (
   <>
-    <div>
+    <div className="col-span-3 md:col-auto">
       <label htmlFor={name} className="label">
         {label} {required && <span className="text-red-500">*</span>}
         {infoText && (
           <>
             <Tooltip name={name} infoText={infoText} />
-            {/* <Popover name={name} infoText={infoText} /> */}
           </>
         )}
       </label>
     </div>
-    <div className="col-span-2">
+    <div className="col-span-3 md:col-span-2">
       <div className="flex rounded-md shadow-sm">
         <input
           type="number"
@@ -40,7 +39,7 @@ export const FormRow = ({
           {...(max && { max: max })}
         />
       </div>
-      {helpText && <p className="input-help">{helpText}</p>}
+      {helpText && <p className="input-help text-xs">{helpText}</p>}
     </div>
   </>
 );

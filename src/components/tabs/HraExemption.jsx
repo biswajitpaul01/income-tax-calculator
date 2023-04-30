@@ -3,8 +3,8 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRef, useState } from "react";
 import { Alert } from "../Alert";
-import { FormRow } from "../FormRow";
 import { HRAExemptionReport } from "../results/HRAExemptionReport";
+import { FormRow } from "../slices/FormRow";
 
 library.add(faArrowRight);
 
@@ -14,7 +14,7 @@ const HraExemption = (props) => {
   const [da, setDa] = useState(0);
   const [hra, setHra] = useState(0);
   const [rentPaid, setRentPaid] = useState(0);
-  const [liveInMetorpolitan, setLiveInMetorpolitan] = useState(1);
+  const [liveInMetropolitan, setLiveInMetropolitan] = useState(1);
 
   const manageBasicSalary = (basicAmount) => {
     setBasicSalary(basicAmount);
@@ -71,8 +71,8 @@ const HraExemption = (props) => {
               value="1"
               name="metro"
               className="radio-inline"
-              defaultChecked={liveInMetorpolitan}
-              onChange={(e) => setLiveInMetorpolitan(e.target.value)}
+              defaultChecked={liveInMetropolitan}
+              onChange={(e) => setLiveInMetropolitan(e.target.value)}
             />
             <label htmlFor="metro-yes" className="radio-inline-label">
               Yes
@@ -85,8 +85,8 @@ const HraExemption = (props) => {
               value="0"
               name="metro"
               className="radio-inline"
-              defaultChecked={!liveInMetorpolitan}
-              onChange={(e) => setLiveInMetorpolitan(e.target.value)}
+              defaultChecked={!liveInMetropolitan}
+              onChange={(e) => setLiveInMetropolitan(e.target.value)}
             />
             <label htmlFor="metro-no" className="radio-inline-label">
               No
@@ -107,7 +107,7 @@ const HraExemption = (props) => {
         da={da}
         hra={hra}
         rentPaid={rentPaid}
-        liveInMetorpolitan={liveInMetorpolitan}
+        liveInMetorpolitan={liveInMetropolitan}
       />
     </>
   );
