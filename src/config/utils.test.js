@@ -10,7 +10,7 @@ describe('Test utils.js', () => {
 
     test('should calculate HRA Exemption', () => {
         const output1 = getHRAExemption({
-            basicSalary: 594996, da: 0, hra: 297498, rentPaid: 120000, liveInMetorpolitan: '1'
+            basicSalary: 594996, da: 0, hra: 297498, rentPaid: 120000, liveInMetropolitan: '1'
         });
 
         expect(output1.companyProvidedHRA).toBe(297498);

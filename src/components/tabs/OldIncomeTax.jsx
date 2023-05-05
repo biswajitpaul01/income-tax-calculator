@@ -15,8 +15,10 @@ const OldIncomeTax = () => {
   const [basicSalary, setBasicSalary] = useState(0);
   const [gratuityPercent, setGratuityPercent] = useState(4.81);
   const [gratuity, setGratuity] = useState(0);
-  const [pfPercent, setPFPercent] = useState(12);
-  const [pf, setPF] = useState(0);
+  const [employeePFPercent, setEmployeePFPercent] = useState(12);
+  const [employeePF, setEmployeePF] = useState(0);
+  const [employerPFPercent, setEmployerPFPercent] = useState(13);
+  const [employerPF, setEmployerPF] = useState(0);
   const [mediInsPremium, setMediInsPremium] = useState(0);
   const [chargableIncome, setChargableIncome] = useState(0);
   const [totalSalary, setTotalSalary] = useState(0);
@@ -35,12 +37,15 @@ const OldIncomeTax = () => {
     let gratuity = Math.round((basicSalary * gratuityPercent) / 100);
     setGratuity(gratuity);
 
-    let pf = Math.round((basicSalary * pfPercent) / 100);
-    setPF(pf);
+    let employeePF = Math.round((basicSalary * employeePFPercent) / 100);
+    setEmployeePF(employeePF);
 
-    let totalSalary = Math.round(ctc - gratuity - pf - mediInsPremium);
+    let employerPF = Math.round((basicSalary * employerPFPercent) / 100);
+    setEmployerPF(employerPF);
+
+    let totalSalary = Math.round(ctc - gratuity - employeePF - employerPF - mediInsPremium);
     setTotalSalary(totalSalary);
-  }, [basicSalary, ctc, gratuityPercent, mediInsPremium, pfPercent]);
+  }, [basicSalary, ctc, gratuityPercent, mediInsPremium, employeePFPercent, employerPFPercent]);
 
   const calculateTaxChargeableIncome = (e) => {
     e.preventDefault();
@@ -64,7 +69,7 @@ const OldIncomeTax = () => {
       <Alert type="info">All figures should be in yearly format</Alert>
       <form>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <FormRow
+          <FormRowFloatable
             label="CTC"
             name="ctc"
             value={ctc}
@@ -72,7 +77,7 @@ const OldIncomeTax = () => {
             className="text-input"
             onChange={(e) => setCTC(e.target.value)}
           />
-          <FormRow
+          <FormRowFloatable
             label="Basic Salary"
             name="basic_salary"
             value={basicSalary}
@@ -80,7 +85,7 @@ const OldIncomeTax = () => {
             required="true"
             onChange={(e) => setBasicSalary(e.target.value)}
           />
-          <FormRow
+          <FormRowFloatable
             label="Medical Insr Premium from Salary Slip"
             name="mediclaim"
             value={mediInsPremium}
@@ -100,13 +105,24 @@ const OldIncomeTax = () => {
           />
           <FormRowComboInput
             firstInputLabel="Basic %"
-            firstInputName="pf_percent"
-            firstInputValue={pfPercent}
+            firstInputName="employee_pf_percent"
+            firstInputValue={employeePFPercent}
             firstInputRequired={true}
-            onFirstInputChange={(e) => setPFPercent(e.target.value)}
-            secondInputLabel="Provident Fund (12% of Basic)"
-            secondInputName="pf"
-            secondInputValue={pf}
+            onFirstInputChange={(e) => setEmployeePFPercent(e.target.value)}
+            secondInputLabel="Employee PF (12% of Basic)"
+            secondInputName="employee_pf"
+            secondInputValue={employeePF}
+            secondInputReadOnly={true}
+          />
+          <FormRowComboInput
+            firstInputLabel="Basic %"
+            firstInputName="employer_pf_percent"
+            firstInputValue={employerPFPercent}
+            firstInputRequired={true}
+            onFirstInputChange={(e) => setEmployerPFPercent(e.target.value)}
+            secondInputLabel="Employer PF (13% of Basic)"
+            secondInputName="employer_pf"
+            secondInputValue={employerPF}
             secondInputReadOnly={true}
           />
           <FormRow
@@ -177,8 +193,8 @@ const OldIncomeTax = () => {
             name="home_loan_interest"
             value={homeLoanInterest}
             className="text-input"
-            max="50000"
-            helpText="Max allowed: 50K"
+            max="200000"
+            helpText="Max allowed: 2L"
             onChange={(e) => setHomeLoanInterest(e.target.value)}
           />
           <FormRowFloatable
@@ -213,7 +229,7 @@ const OldIncomeTax = () => {
         <TaxReport
           income={chargableIncome}
           totalSalary={totalSalary}
-          pf={pf}
+          pf={employeePF}
           profTax={profTax}
           method="old"
         />

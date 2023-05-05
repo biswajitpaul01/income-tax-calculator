@@ -1,5 +1,14 @@
 import { lazy } from 'react';
 
-export const OldIncomeTax = lazy(() => import('./components/tabs/OldIncomeTax'));
-export const NewIncomeTax = lazy(() => import('./components/tabs/NewIncomeTax'));
-export const HraExemption = lazy(() => import('./components/tabs/HraExemption'));
+const componentMap = {
+    oldIncomeTax: lazy(() => import('./components/tabs/OldIncomeTax')),
+    newIncomeTax: lazy(() => import('./components/tabs/NewIncomeTax')),
+    hraExemption: lazy(() => import('./components/tabs/HraExemption')),
+};
+
+const getComponent = (componentName) => {
+    const Component = componentMap[componentName];
+    return <Component />;
+};
+
+export default getComponent;
