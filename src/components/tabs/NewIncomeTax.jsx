@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { Alert } from "../Alert";
 import { TaxReport } from "../results/TaxReport";
+import { FormRow } from "../slices/FormRow";
+import { FormRowComboInput } from "../slices/FormRowComboInput";
 import { FormRowFloatable } from "../slices/FormRowFloatable";
 
 library.add(faArrowRight);
@@ -11,24 +13,49 @@ library.add(faArrowRight);
 const NewIncomeTax = () => {
   const [ctc, setCTC] = useState(0);
   const [basicSalary, setBasicSalary] = useState(0);
+  const [mediInsPremium, setMediInsPremium] = useState(0);
+  const [gratuityPercent, setGratuityPercent] = useState(4.81);
+  const [gratuity, setGratuity] = useState(0);
+  const [employeePFPercent, setEmployeePFPercent] = useState(12);
+  const [employeePF, setEmployeePF] = useState(0);
+  const [otherIncome, setOtherIncome] = useState(0);
   const [chargableIncome, setChargableIncome] = useState(0);
   const [totalSalary, setTotalSalary] = useState(0);
   const [standardDeduction, setStandardDeduction] = useState(50000);
+  const [profTax, setProfTax] = useState(2400);
   const [eightyCCD2Deduction, setEightyCCD2Deduction] = useState(0);
   const [homeLoanInterest, setHomeLoanInterest] = useState(0);
 
   useEffect(() => {
-    let totalSalary = Math.round(ctc);
+    const gratuity = Math.round((basicSalary * gratuityPercent) / 100);
+    setGratuity(gratuity);
+
+    const employeePF = Math.round((basicSalary * employeePFPercent) / 100);
+    setEmployeePF(employeePF);
+
+    let totalIncome = parseFloat(ctc) + parseFloat(otherIncome);
+
+    const totalSalary = Math.round(
+      totalIncome - gratuity - employeePF - mediInsPremium
+    );
     setTotalSalary(totalSalary);
-  }, [basicSalary, ctc]);
+  }, [
+    basicSalary,
+    ctc,
+    employeePFPercent,
+    gratuityPercent,
+    mediInsPremium,
+    otherIncome,
+  ]);
 
   const calculateTaxChargeableIncome = (e) => {
     e.preventDefault();
-    let totalDeduction =
+    const totalDeduction =
       parseFloat(standardDeduction) +
       parseFloat(eightyCCD2Deduction) +
       parseFloat(homeLoanInterest);
-    let income = Math.round(totalSalary - totalDeduction);
+    const income = Math.round(totalSalary - totalDeduction);
+
     setChargableIncome(income);
   };
 
@@ -54,6 +81,42 @@ const NewIncomeTax = () => {
             onChange={(e) => setBasicSalary(e.target.value)}
           />
           <FormRowFloatable
+            label="Medical Insr Premium from Salary Slip"
+            name="mediclaim"
+            value={mediInsPremium}
+            className="text-input"
+            onChange={(e) => setMediInsPremium(e.target.value)}
+          />
+          <FormRowComboInput
+            firstInputLabel="Basic %"
+            firstInputName="gratuity_percent"
+            firstInputValue={gratuityPercent}
+            firstInputRequired={true}
+            onFirstInputChange={(e) => setGratuityPercent(e.target.value)}
+            secondInputLabel="Gratuity (4.81% of Basic)"
+            secondInputName="gratuity"
+            secondInputValue={gratuity}
+            secondInputReadOnly={true}
+          />
+          <FormRowComboInput
+            firstInputLabel="Basic %"
+            firstInputName="employee_pf_percent"
+            firstInputValue={employeePFPercent}
+            firstInputRequired={true}
+            onFirstInputChange={(e) => setEmployeePFPercent(e.target.value)}
+            secondInputLabel="Employee PF (12% of Basic)"
+            secondInputName="employee_pf"
+            secondInputValue={employeePF}
+            secondInputReadOnly={true}
+          />
+          <FormRowFloatable
+            label="Other Income"
+            name="other_income"
+            value={otherIncome}
+            className="text-input"
+            onChange={(e) => setOtherIncome(e.target.value)}
+          />
+          <FormRow
             label="Total Income"
             name="total_salary"
             value={totalSalary}
@@ -67,6 +130,13 @@ const NewIncomeTax = () => {
             value={standardDeduction}
             className="text-input"
             onChange={(e) => setStandardDeduction(e.target.value)}
+          />
+          <FormRowFloatable
+            label="Prof.Tax (Yearly)"
+            name="prof_tax"
+            value={profTax}
+            className="text-input"
+            onChange={(e) => setProfTax(e.target.value)}
           />
           <FormRowFloatable
             label="80CCD (2) Deduction"
@@ -102,8 +172,8 @@ const NewIncomeTax = () => {
         <TaxReport
           income={chargableIncome}
           totalSalary={totalSalary}
-          pf={0}
-          profTax={0}
+          pf={employeePF}
+          profTax={profTax}
           method="new"
         />
       )}
