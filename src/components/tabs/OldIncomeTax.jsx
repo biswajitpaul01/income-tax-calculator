@@ -34,22 +34,31 @@ const OldIncomeTax = () => {
   const [lta, setLTA] = useState(0);
 
   useEffect(() => {
-    let gratuity = Math.round((basicSalary * gratuityPercent) / 100);
+    const gratuity = Math.round((basicSalary * gratuityPercent) / 100);
     setGratuity(gratuity);
 
-    let employeePF = Math.round((basicSalary * employeePFPercent) / 100);
+    const employeePF = Math.round((basicSalary * employeePFPercent) / 100);
     setEmployeePF(employeePF);
 
-    let employerPF = Math.round((basicSalary * employerPFPercent) / 100);
+    const employerPF = Math.round((basicSalary * employerPFPercent) / 100);
     setEmployerPF(employerPF);
 
-    let totalSalary = Math.round(ctc - gratuity - employeePF - employerPF - mediInsPremium);
+    const totalSalary = Math.round(
+      ctc - gratuity - employeePF - employerPF - mediInsPremium
+    );
     setTotalSalary(totalSalary);
-  }, [basicSalary, ctc, gratuityPercent, mediInsPremium, employeePFPercent, employerPFPercent]);
+  }, [
+    basicSalary,
+    ctc,
+    gratuityPercent,
+    mediInsPremium,
+    employeePFPercent,
+    employerPFPercent,
+  ]);
 
   const calculateTaxChargeableIncome = (e) => {
     e.preventDefault();
-    let totalDeduction =
+    const totalDeduction =
       parseFloat(hraExemption) +
       parseFloat(standardDeduction) +
       parseFloat(profTax) +
@@ -60,7 +69,7 @@ const OldIncomeTax = () => {
       parseFloat(homeLoanInterest) +
       parseFloat(savingsInterest) +
       parseFloat(lta);
-    let income = Math.round(totalSalary - totalDeduction);
+    const income = Math.round(totalSalary - totalDeduction);
     setChargableIncome(income);
   };
 
